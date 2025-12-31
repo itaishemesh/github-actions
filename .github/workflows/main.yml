@@ -15,18 +15,21 @@ jobs:
           name: code
           path: .
           include-hidden-files: true
-
-  Test:
-    needs: Build
+  
+  Linting:
     runs-on: ubuntu-latest
-    container: gradle:6-jdk11
-    steps:
+    needs: Build
+    steps: 
       - name: Download code
         uses: actions/download-artifact@v4
-        with: 
+        with:
           name: code
           path: .
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Run unit-test
-        run: ci/unit-test-app.sh
+      - name: Run linting
+        uses: super-linter/super-linter/slim@v7
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        
+
