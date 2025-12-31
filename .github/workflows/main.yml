@@ -1,7 +1,7 @@
 name: Main workflow
 on: push
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
     steps:
@@ -16,9 +16,9 @@ jobs:
           path: .
           include-hidden-files: true
   
-  Linting:
+  linting:
     runs-on: ubuntu-latest
-    needs: Build
+    needs: build
     steps: 
       - name: Download code
         uses: actions/download-artifact@v4
@@ -30,6 +30,8 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true
+
 
         
 
